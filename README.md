@@ -1,2 +1,8 @@
-# RollDie
-A diceroller discord bot.. throws in funny quotes from the Inquisition at random
+# How to run
+node .
+
+# How to deploy commands
+node deploy-commands.js
+
+# deployed on server
+screen -R
