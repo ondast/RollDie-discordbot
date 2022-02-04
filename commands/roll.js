@@ -27,6 +27,5 @@ module.exports = {
             await interaction.reply({ content: mess, embeds: [embed] });
         else
             await interaction.reply({ content: mess });
-
-  	},
+    },
 };
