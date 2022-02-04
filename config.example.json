@@ -1,0 +1,5 @@
+{
+    "token": "<insert token here>",
+    "clientId" : "<insert client id here>",
+    "guildId" : "<insert guild/channel-id>"
+}
