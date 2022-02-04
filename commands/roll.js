@@ -5,10 +5,10 @@ const Service = require('../utils/service.js');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('roll')
-		.setDescription('Rolls one or a number of die. Syntax: 1d6, d6, 2d6+1')
+		.setDescription('Rolls one or a number of die with a number of modifiers. Syntax: 1d6, d6, 2d6+1')
         .addStringOption(option =>
             option.setName('combination')
-                .setDescription('Syntax: 1d6, d6, 2d6+1')
+                .setDescription('Syntax: 1d6, d6, 2d6+1, 2d6 + 1d6 + 3 - 1')
                 .setRequired(false)),
 
 	async execute(interaction) {
