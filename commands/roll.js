@@ -1,5 +1,7 @@
+// External includes
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
+// Local includes
 const Service = require('../utils/service.js');
 
 module.exports = {

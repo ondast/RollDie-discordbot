@@ -1,13 +1,14 @@
+// External includes
 const {
     tokenize,
     rollDice,
     tallyRolls,
     calculateFinalResult,
-  } = require('@airjp73/dice-notation');
-
+} = require('@airjp73/dice-notation');
 const { MessageEmbed } = require('discord.js');
-const quotes = require('./quotes.json');
 
+// Local includes
+const quotes = require('./quotes.json');
 
 module.exports = {
     generateMessage(res, username) {

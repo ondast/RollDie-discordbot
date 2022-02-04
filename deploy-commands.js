@@ -1,11 +1,12 @@
+// External includes
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
-const { clientId, guildId, token } = require('./config.json');
-
 const fs = require('fs');
 
-const commands = [];
+// Local includes
+const { clientId, guildId, token } = require('./config.json');
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const commands = [];
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
