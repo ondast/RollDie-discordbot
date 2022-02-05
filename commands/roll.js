@@ -18,7 +18,7 @@ module.exports = {
             embed: null,
             message: '',
         }
-        console.log(interaction)
+
         try {
             res = Service.interpret(interaction.options.getString('combination'), interaction.user.username);
         } catch(error) {

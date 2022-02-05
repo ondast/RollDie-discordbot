@@ -12,14 +12,14 @@ client.commands = new Collection();
 
 // Parse commands and tally services
 for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-	client.commands.set(command.data.name, command);
+    const command = require(`./commands/${file}`);
+    client.commands.set(command.data.name, command);
     services[command.data.name] =  require(`./services/${file}`)
 }
 
 // Triggered upon start
 client.once('ready', () => {
-	console.log('Discord bot waiting for input.');
+    console.log('Discord bot waiting for input.');
 });
 
 // On message received (someone types in a channel)
@@ -28,7 +28,7 @@ client.on("messageCreate", async message => {
     let commands = message.content.split(' ');
     let commandName = commands.shift();
 
-	const command = client.commands.get(commandName);
+    const command = client.commands.get(commandName);
 
     if (!command)
         return;
@@ -54,19 +54,19 @@ client.on("messageCreate", async message => {
 
 // On interaction received (someone uses a slashcommand eg /roll in a channel)
 client.on('interactionCreate', async interaction => {
-	if (!interaction.isCommand())
+    if (!interaction.isCommand())
         return;
 
-	const command = client.commands.get(interaction.commandName);
+    const command = client.commands.get(interaction.commandName);
 
-	if (!command) return;
+    if (!command) return;
 
-	try {
-		await command.execute(interaction);
-	} catch (error) {
-		console.error(error);
-		await interaction.reply({ content: 'Nope.. got error while trying to fulfill your command', ephemeral: true });
-	}
+    try {
+        await command.execute(interaction);
+    } catch (error) {
+        console.error(error);
+        await interaction.reply({ content: 'Nope.. got error while trying to fulfill your command', ephemeral: true });
+    }
 });
 
 client.login(token);
