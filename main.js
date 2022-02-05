@@ -14,7 +14,7 @@ client.commands = new Collection();
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
     client.commands.set(command.data.name, command);
-    services[command.data.name] =  require(`./services/${file}`)
+    services[command.data.name] = require(`./services/${file}`)
 }
 
 // Triggered upon start
@@ -43,7 +43,7 @@ client.on("messageCreate", async message => {
         res = services[commandName].interpret(remainder, message.author.username);
     } catch (error) {
         console.error(error);
-        await message.reply({ content: 'Nope.. got error while trying to fulfill '+message.content, ephemeral: true });
+        await message.reply({ content: 'Nope.. got error while trying to fulfill ' + message.content, ephemeral: true });
     }
 
     if (res.embed)

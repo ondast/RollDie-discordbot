@@ -28,10 +28,7 @@ module.exports = {
     },
 
     getQuote() {
-        const min = 0;
-        const max = quotes.length-1;
-        let idx = Math.floor(Math.random() * (max - min + 1) + min)
-
+        const idx = Math.floor(Math.random() * quotes.length);
         const quote = quotes[idx];
 
         let embed = null;

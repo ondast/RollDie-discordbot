@@ -10,7 +10,7 @@ module.exports = {
     },
 
     generateMessage() {
-        const idx = Math.floor(Math.random() * (curses.length))
+        const idx = Math.floor(Math.random() * curses.length)
         const curse = curses[idx];
 
         return curse ? curse : 'I... I got nothing';
