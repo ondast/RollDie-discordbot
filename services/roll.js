@@ -8,9 +8,16 @@ const {
 const { MessageEmbed } = require('discord.js');
 
 // Local includes
-const quotes = require('./quotes.json');
+const quotes = require('../data/quotes.json');
 
 module.exports = {
+    interpret(option, username) {
+        return {
+            message: this.generateMessage(this.parse(option), username),
+            embed: this.getQuote(),
+        }
+    },
+
     generateMessage(res, username) {
         let mes = 'Rolling (*'+res.tokens+'*) ' + res.rollString +' for **'+username+'**, total is **'+(res.result)+'**';
 

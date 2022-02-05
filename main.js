@@ -2,17 +2,19 @@
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MESSAGES] });
-client.commands = new Collection();
 
 // Internal includes
 const { token } = require('./config.json');
-const Service = require('./utils/service.js');
+// const Service = require('./utils/service.js');
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const services = {};
+client.commands = new Collection();
 
-// Parse commands
+// Parse commands and tally services
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	client.commands.set(command.data.name, command);
+    services[command.data.name] =  require(`./services/${file}`)
 }
 
 // Triggered upon start
@@ -21,36 +23,33 @@ client.once('ready', () => {
 });
 
 // On message received (someone types in a channel)
-client.on("messageCreate", message => {
-    let prefix = 'roll ';
-
-    if (!message.content.startsWith(prefix) && message.content !== prefix.trim())
-    {
-        // Filter away non-interesting commands.
-        return;
-    }
-
+client.on("messageCreate", async message => {
     // Remove first token, eg 'roll '
     let commands = message.content.split(' ');
-    commands.shift();
+    let commandName = commands.shift();
+
+	const command = client.commands.get(commandName);
+
+    if (!command)
+        return;
 
     let remainder = commands.join(' ');
-
-    let embed = null;
-    let mess = '';
+    let res = {
+        message: '',
+        embed: null,
+    };
 
     try {
-        let res = Service.parse(remainder);
-        embed = Service.getQuote();
-        mess = Service.generateMessage(res, message.author.username);
+        res = services[commandName].interpret(remainder, message.author.username);
     } catch (error) {
-       mess = 'Nope';
+        console.error(error);
+        await message.reply({ content: 'Nope.. got error while trying to fulfill '+message.content, ephemeral: true });
     }
 
-    if (embed)
-        message.reply({ content: mess, embeds: [embed] });
+    if (res.embed)
+        message.reply({ content: res.message, embeds: [res.embed] });
     else
-        message.reply({ content: mess });
+        message.reply({ content: res.message });
 });
 
 // On interaction received (someone uses a slashcommand eg /roll in a channel)
@@ -66,7 +65,7 @@ client.on('interactionCreate', async interaction => {
 		await command.execute(interaction);
 	} catch (error) {
 		console.error(error);
-		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+		await interaction.reply({ content: 'Nope.. got error while trying to fulfill your command', ephemeral: true });
 	}
 });
 

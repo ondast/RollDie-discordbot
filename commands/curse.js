@@ -2,27 +2,21 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 // Local includes
-const Service = require('../services/roll.js');
+const Service = require('../services/curse.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('roll')
-        .setDescription('Rolls one or a number of die with a number of modifiers. Syntax: 1d6, d6, 2d6+1')
-        .addStringOption(option =>
-            option.setName('combination')
-                .setDescription('Syntax: 1d6, d6, 2d6+1, 2d6 + 1d6 + 3 - 1')
-                .setRequired(false)),
+        .setName('curse')
+        .setDescription('Randomly curses in imperial'),
 
     async execute(interaction) {
         let res = {
             embed: null,
             message: '',
         }
-        console.log(interaction)
         try {
-            res = Service.interpret(interaction.options.getString('combination'), interaction.user.username);
+            res = Service.interpret();
         } catch(error) {
-            console.log(error);
             res.message = 'Nope';
         }
 
