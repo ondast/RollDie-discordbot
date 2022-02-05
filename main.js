@@ -26,7 +26,7 @@ client.once('ready', () => {
 client.on("messageCreate", async message => {
     // Remove first token, eg 'roll '
     let commands = message.content.split(' ');
-    let commandName = commands.shift();
+    let commandName = commands.shift().toLocaleLowerCase();
 
     const command = client.commands.get(commandName);
 
